@@ -28,6 +28,8 @@ fi
 DOCKERFILE=${PLUGIN_DOCKERFILE:-Dockerfile}
 CONTEXT=${PLUGIN_CONTEXT:-$PWD}
 LOG=${PLUGIN_LOG:-info}
+RETRIES=${PLUGIN_RETRiES:1}
+RETRIES_TIME=${PLUGIN_RETRIES_TIME:1}
 EXTRA_OPTS=""
 
 if [[ -n "${PLUGIN_TARGET:-}" ]]; then
@@ -96,6 +98,7 @@ else
     CACHE=""
 fi
 
+/kaniko/trycommand.sh -s ${RETRIES_TIME} -t ${RETRIES} -c \
 /kaniko/executor -v ${LOG} \
     --context=${CONTEXT} \
     --dockerfile=${DOCKERFILE} \
