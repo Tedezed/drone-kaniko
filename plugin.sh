@@ -28,9 +28,19 @@ fi
 DOCKERFILE=${PLUGIN_DOCKERFILE:-Dockerfile}
 CONTEXT=${PLUGIN_CONTEXT:-$PWD}
 LOG=${PLUGIN_LOG:-info}
-RETRIES=${PLUGIN_RETRIES:1}
-RETRIES_TIME=${PLUGIN_RETRIES_TIME:1}
 EXTRA_OPTS=""
+
+if [[ -n "${PLUGIN_RETRIES:-}" ]]; then
+    RETRIES=${PLUGIN_RETRIES}
+else
+    RETRIES=1
+fi
+
+if [[ -n "${PLUGIN_RETRIES_TIME:-}" ]]; then
+    RETRIES_TIME=${PLUGIN_RETRIES_TIME}
+else
+    RETRIES_TIME=1
+fi
 
 if [[ -n "${PLUGIN_TARGET:-}" ]]; then
     TARGET="--target=${PLUGIN_TARGET}"
@@ -98,8 +108,8 @@ else
     CACHE=""
 fi
 
-/kaniko/trycommand.sh -s ${RETRIES_TIME} -t ${RETRIES} -c \
-/kaniko/executor -v ${LOG} \
+/kaniko/trycommand.sh -s ${RETRIES_TIME} -t ${RETRIES} -c\
+"/kaniko/executor -v ${LOG} \
     --context=${CONTEXT} \
     --dockerfile=${DOCKERFILE} \
     ${EXTRA_OPTS} \
@@ -109,4 +119,4 @@ fi
     ${CACHE_REPO:-} \
     ${TARGET:-} \
     ${BUILD_ARGS:-} \
-    ${BUILD_ARGS_FROM_ENV:-}
+    ${BUILD_ARGS_FROM_ENV:-}"

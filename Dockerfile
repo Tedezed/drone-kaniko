@@ -7,5 +7,5 @@ ENV DOCKER_CONFIG /kaniko/.docker/
 ENV DOCKER_CREDENTIAL_GCR_CONFIG /kaniko/.config/gcloud/docker_credential_gcr_config.json
 
 # add the wrapper which acts as a drone plugin
-COPY plugin.sh /kaniko/plugin.sh
+COPY *.sh /kaniko/
 ENTRYPOINT [ "/kaniko/plugin.sh" ]
