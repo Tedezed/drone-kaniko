@@ -1,6 +1,7 @@
 #!/busybox/sh
 # Trycommand
 # By Tedezed
+# Source: https://raw.githubusercontent.com/Tedezed/devops-command-tools/master/trycommand/trycommand
 
 usage ()
 {
