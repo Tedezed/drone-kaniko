@@ -97,18 +97,23 @@ if [[ "${PLUGIN_AUTO_TAG:-}" == "true" ]]; then
 fi
 
 if [ -n "${PLUGIN_TAGS:-}" ]; then
+    echo "[INFO] Execution using PLUGIN_TAGS: ${PLUGIN_TAGS}"
     DESTINATIONS=$(echo "${PLUGIN_TAGS}" | tr ',' '\n' | while read tag; do echo "--destination=${REGISTRY}/${PLUGIN_REPO}:${tag} "; done)
 elif [ -f .tags ]; then
+    echo "[INFO] Execution using .tags file: $(cat .tags)"
     DESTINATIONS=$(cat .tags| tr ',' '\n' | while read tag; do echo "--destination=${REGISTRY}/${PLUGIN_REPO}:${tag} "; done)
 elif [ -n "${PLUGIN_REPO:-}" ]; then
+    echo "[INFO] Execution using PLUGIN_REPO: ${PLUGIN_REPO}"
     DESTINATIONS="--destination=${REGISTRY}/${PLUGIN_REPO}:latest"
 else
+    echo "[INFO] Execution using --no-push"
     DESTINATIONS="--no-push"
     # Cache is not valid with --no-push
     CACHE=""
 fi
 
 set -x
+
 /kaniko/trycommand.sh -s ${RETRIES_TIME} -t ${RETRIES} -c\
 "/kaniko/executor -v ${LOG} \
     --context=${CONTEXT} \
