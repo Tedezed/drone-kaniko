@@ -108,6 +108,7 @@ else
     CACHE=""
 fi
 
+set -x
 /kaniko/trycommand.sh -s ${RETRIES_TIME} -t ${RETRIES} -c\
 "/kaniko/executor -v ${LOG} \
     --context=${CONTEXT} \
